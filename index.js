@@ -23,3 +23,39 @@ exports.onTaskCreateTemp = functions //Criando a função onTaskCreate
             .ref(`/logs/${key}`)
             .set(log);
     });
+
+exports.onTaskDelete = functions
+    .database
+    .ref('tasks/{id}')
+    .onCreate((snapshot, context) => {
+
+        const json = snapshot.val();
+        const key = context.params.id;
+
+        const log = Object.assign({ deletedAt: context.timestamp }, json);
+        console.log(log);
+
+        return admin
+            .database()
+            .ref(`logs/${key}`)
+            .set(log);
+
+    });
+
+exports.onTaskUpdate = functions
+    .database
+    .ref('tasks/{id}')
+    .onCreate((snapshot, context) => {
+
+        const json = snapshot.val();
+        const key = context.params.id;
+
+        const log = Object.assign({ updatedAt: context.timestamp }, json);
+        console.log(log);
+
+        return admin
+            .database()
+            .ref(`logs/${key}`)
+            .set(log);
+
+    });
