@@ -6,7 +6,7 @@ admin.initializeApp(functions.config().firebase);
 /** 
  * Sempre que uma nova tarefa for criada passará neste método
  */
-exports.onTaskCreateTemp = functions //Criando a função onTaskCreate
+exports.onTaskCreate = functions //Criando a função onTaskCreate
     .database
     .ref('tasks/{id}') //Escuta o nó task
     .onCreate((snapshot, context) => {
@@ -27,7 +27,7 @@ exports.onTaskCreateTemp = functions //Criando a função onTaskCreate
 exports.onTaskDelete = functions
     .database
     .ref('tasks/{id}')
-    .onCreate((snapshot, context) => {
+    .onDelete((snapshot, context) => {
 
         const json = snapshot.val();
         const key = context.params.id;
@@ -45,7 +45,7 @@ exports.onTaskDelete = functions
 exports.onTaskUpdate = functions
     .database
     .ref('tasks/{id}')
-    .onCreate((snapshot, context) => {
+    .onUpdate((snapshot, context) => {
 
         const json = snapshot.val();
         const key = context.params.id;
